@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {getPreviousDate} from '../common/common';
 
-const API_key = '83e7b4422ca34f6a938e67cea462d1be';
+const API_key = 'apiKey';
 const API_URL = `https://newsapi.org/v2/everything?`;
 const API_URL_HL = `https://newsapi.org/v2/top-headlines?`;
 
