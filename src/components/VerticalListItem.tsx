@@ -1,16 +1,17 @@
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {memo} from 'react';
 import {moderateScale} from 'react-native-size-matters';
 import {formatDate} from '../common/common';
 import navigationStrings from '../constants/navigationStrings';
+import FastImage from 'react-native-fast-image';
 
 const VerticalListItem = ({navigation, article}: any) => {
   if (!article.imageUrl || !article.title || !article.description) {
     return null;
   }
-  // console.log('VerticalListItem');
 
   const date = formatDate(article.publishedAt);
+
   const navigationHandler = () => {
     navigation.navigate(navigationStrings.NEWSDETAILS, {article});
   };
@@ -19,9 +20,10 @@ const VerticalListItem = ({navigation, article}: any) => {
       onPress={navigationHandler}
       activeOpacity={0.7}
       style={styles.container}>
-      <Image
+      <FastImage
         source={{
           uri: article.imageUrl,
+          priority: FastImage.priority.high,
         }}
         style={styles.Image}
       />
@@ -71,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VerticalListItem;
+export default memo(VerticalListItem);

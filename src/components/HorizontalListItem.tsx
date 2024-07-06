@@ -1,8 +1,9 @@
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {memo} from 'react';
 import {moderateScale} from 'react-native-size-matters';
 import {COLORS} from '../constants/theme';
 import navigationStrings from '../constants/navigationStrings';
+import FastImageComponent from './FastImageComponent';
 
 const HorizontalListItem = ({article, navigation}: any) => {
   // console.log(article);
@@ -16,12 +17,8 @@ const HorizontalListItem = ({article, navigation}: any) => {
       onPress={() =>
         navigation.navigate(navigationStrings.NEWSDETAILS, {article})
       }>
-      <Image
-        style={styles.image}
-        source={{
-          uri: article.imageUrl,
-        }}
-      />
+      <FastImageComponent style={styles.image} item={article.imageUrl} />
+
       <View style={styles.overlay}>
         <Text style={styles.authorText}>
           by {article.author !== null ? article.author : 'CBC News'}

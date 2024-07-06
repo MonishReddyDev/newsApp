@@ -6,16 +6,17 @@ import {
   TouchableOpacity,
   VirtualizedList,
 } from 'react-native';
-import React from 'react';
+import React, {memo} from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {moderateScale} from 'react-native-size-matters';
 import {COLORS, Images} from '../constants/theme';
 import {formatDate} from '../common/common';
+import SeeAllPagesItem from '../components/SeeAllPagesItem';
 
 const SeeAllPage = ({navigation, route}: any) => {
   const {top} = useSafeAreaInsets();
   const paddingTop = top > 0 ? top + 10 : 30;
-  const {headLines} = route.params;
+  const {data_H} = route.params;
 
   const handleNaigation = () => {
     navigation.pop();
@@ -30,72 +31,7 @@ const SeeAllPage = ({navigation, route}: any) => {
 
     const date = formatDate(item.publishedAt);
 
-    return (
-      <View style={{marginVertical: 10}}>
-        {/**Image */}
-        <View
-          style={{
-            marginBottom: 10,
-            height: 120,
-            width: '100%',
-            borderWidth: 0,
-            borderRadius: 10,
-            overflow: 'hidden',
-            gap: 10,
-          }}>
-          <Image
-            source={{uri: item.imageUrl}}
-            style={{height: '100%', width: '100%'}}
-          />
-        </View>
-        {/**Content */}
-        <View style={{gap: 10}}>
-          <View>
-            <Text
-              style={{
-                fontWeight: '500',
-                fontFamily: 'Nunito-Light',
-                fontSize: 12,
-                color: COLORS.darkgray,
-              }}>
-              {date}
-            </Text>
-          </View>
-          <View>
-            <Text
-              style={{
-                fontSize: 14,
-                fontFamily: 'ArbutusSlab-Regular',
-                color: COLORS.black,
-                fontWeight: '700',
-              }}>
-              {item.title}
-            </Text>
-          </View>
-          <View>
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: '300',
-                color: COLORS.black,
-                fontFamily: 'Nunito-Regular',
-              }}>
-              {item.description}
-            </Text>
-          </View>
-          <View>
-            <Text
-              style={{
-                fontFamily: 'Nunito-Bold',
-                fontSize: 12,
-                color: COLORS.black,
-              }}>
-              {item.author !== null ? item.author : 'CBC News'}
-            </Text>
-          </View>
-        </View>
-      </View>
-    );
+    return <SeeAllPagesItem item={item} date={date} />;
   };
 
   return (
@@ -116,16 +52,14 @@ const SeeAllPage = ({navigation, route}: any) => {
             flex: 1,
             padding: 5,
           }}>
-          <View>
-            <Image
-              style={{
-                height: moderateScale(20),
-                width: moderateScale(20),
-              }}
-              source={Images.backarrow}
-              tintColor={'black'}
-            />
-          </View>
+          <Image
+            style={{
+              height: moderateScale(20),
+              width: moderateScale(20),
+            }}
+            source={Images.backarrow}
+            tintColor={'black'}
+          />
         </TouchableOpacity>
         <Text
           style={{
@@ -142,7 +76,7 @@ const SeeAllPage = ({navigation, route}: any) => {
       <View
         style={{flex: 1, marginTop: 10, marginHorizontal: moderateScale(20)}}>
         <VirtualizedList
-          data={headLines}
+          data={data_H}
           initialNumToRender={4}
           renderItem={({item}) => renderItem(item)}
           keyExtractor={(item, index) => index.toString()}
@@ -170,4 +104,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SeeAllPage;
+export default memo(SeeAllPage);

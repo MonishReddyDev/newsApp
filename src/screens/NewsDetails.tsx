@@ -2,12 +2,15 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {moderateScale, scale} from 'react-native-size-matters';
 import {COLORS, Images} from '../constants/theme';
+import FastImage from 'react-native-fast-image';
+import FastImageComponent from '../components/FastImageComponent';
 
 const NewsDetails = ({route, navigation}: any) => {
   const {article} = route.params;
+
   // Remove the pattern from the string
   let pattern = /\s*\[\+\d+\s*chars\]/;
-  let content = article.content.replace(pattern, '');
+  let content = article.content?.replace(pattern, '');
 
   const navigationHandler = () => {
     navigation.pop();
@@ -16,9 +19,8 @@ const NewsDetails = ({route, navigation}: any) => {
   return (
     <View style={styles.container}>
       {/**Image */}
-
       <View style={styles.ImageContainer}>
-        <Image source={{uri: article.imageUrl}} style={styles.image} />
+        <FastImageComponent style={styles.image} item={article.imageUrl} />
         <TouchableOpacity
           onPress={navigationHandler}
           activeOpacity={0.6}
@@ -59,25 +61,25 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   author: {
-    fontSize: 14,
+    fontSize: scale(14),
     fontFamily: 'ArbutusSlab-Regular',
     color: COLORS.darkgray,
     fontWeight: '700',
   },
   title: {
-    fontSize: 18,
+    fontSize: scale(18),
     fontFamily: 'ArbutusSlab-Regular',
     color: COLORS.black,
     fontWeight: '800',
   },
   description: {
-    fontSize: 12,
+    fontSize: scale(12),
     fontFamily: 'Nunito-Regular',
     color: COLORS.black,
     fontWeight: '600',
   },
   content: {
-    fontSize: 12,
+    fontSize: scale(12),
     fontFamily: 'Nunito-Regular',
     color: COLORS.black,
     fontWeight: '600',

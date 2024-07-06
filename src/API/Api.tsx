@@ -1,9 +1,31 @@
 import axios from 'axios';
 import {getPreviousDate} from '../common/common';
 
-const API_key = 'apiKey';
+const API_key = '39ebedf4c93949068f47f5060fd998d1';
 const API_URL = `https://newsapi.org/v2/everything?`;
 const API_URL_HL = `https://newsapi.org/v2/top-headlines?`;
+
+interface ApiDataResponse {
+  status: string;
+  totalResults: number;
+  articles: {
+    source: {
+      id: string | null;
+      name: string;
+    };
+    author: string | null;
+    title: string;
+    description: string;
+    url: string;
+    urlToImage: string;
+    publishedAt: string;
+    content: string;
+  }[];
+}
+
+interface Params {
+  [key: string]: any;
+}
 
 let date = getPreviousDate();
 
@@ -17,25 +39,17 @@ const formatUrl = (params: Record<string, any>): string => {
     }, '');
     url += queryParams;
   }
-
   // console.log('Final URL:', url);
   return url;
 };
 
-export const apiCall = async (params: Record<string, any>) => {
+export const apiCall = async (params: Params): Promise<ApiDataResponse> => {
   try {
-    const response = await axios.get(formatUrl(params));
-    const {data} = response;
-
-    if (data.status === 'ok') {
-      return {success: true, data: data};
-    } else {
-      console.error('API call returned an error status:', data);
-      return {success: false, msg: 'API call returned an error status'};
-    }
+    const response = await axios.get<ApiDataResponse>(formatUrl(params));
+    return response.data;
   } catch (error: any) {
     console.error('API call error:', error.message);
-    return {success: false, msg: error.message};
+    throw new Error(error.message);
   }
 };
 
@@ -53,18 +67,14 @@ const formatHeadLinesURL = (params: Record<string, any>) => {
   return url;
 };
 
-export const headLinesApicall = async (params: Record<string, any>) => {
+export const NewsHeadLinesApiCall = async (
+  params: Params,
+): Promise<ApiDataResponse> => {
   try {
     const response = await axios.get(formatHeadLinesURL(params));
-    const {data} = response;
-    if (data.status === 'ok') {
-      return {success: true, data: data};
-    } else {
-      console.error('API call returned an error status:', data);
-      return {success: false, msg: 'API call returned an error status'};
-    }
+    return response.data;
   } catch (error: any) {
     console.error('API call error:', error.message);
-    return {success: false, msg: error.message};
+    throw new Error(error.message);
   }
 };

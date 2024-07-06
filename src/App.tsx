@@ -1,9 +1,14 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import AppStack from './navigation/appStack';
+import {Provider} from 'react-redux';
+import {store} from './redux/store';
 
 const App = () => {
-  return <AppStack />;
+  return (
+    <Provider store={store}>
+      <AppStack />
+    </Provider>
+  );
 };
 
 export default App;
